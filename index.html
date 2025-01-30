@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather</title>
+</head>
+<style>
+    *{
+        margin:0px;
+        padding:0px;
+        box-sizing: border-box;
+        color: blanchedalmond;
+    }
+    .container{
+        width:100vw;
+        height:100vh;
+        background-color:black;
+        flex-wrap: wrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .parent{
+        width:1100px;
+        height:500px;
+        background-color:rgb(39, 36, 36);
+        display: flex;
+        column-gap: 20px;
+        align-items: center;
+        justify-content: center;   
+    }
+    #first{
+        width:250px;
+        height:400px;
+        background-color:rgb(1, 1, 9);
+        border-radius: 15px;
+    }
+    #second{
+        width:550px;
+        height:400px;
+        background-color:rgb(1, 1, 9);
+        border-radius: 15px;
+        display: flex;
+        padding-top: 30px;
+        padding-left: 20px;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+    input{
+        width:350px;
+        height:40px;
+        border-radius: 10px;
+        border-style: none;
+        padding-left: 20px;
+        font-size: 20px;
+        background-color:aliceblue;
+        color: black;
+    }
+    button{
+        width:100px;
+        height:40px;
+        border-radius: 10px;
+        border-style: none;
+        background-color:rgb(226, 181, 187);
+        font-size: 18px;
+    }
+    img{
+        border-radius: 15px;
+    }
+    #icon{
+        width:80px;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="parent">
+            <div id="first"> 
+                 <img src="weathers.jpg" alt="" width="250px" height="400px;">    
+            </div>
+            <div id="second">
+                <input type placeholder="search your city name" id="inp">
+                <button onclick="checkTemp()">search</button>
+                <h1 id="cityName"></h1>
+                <div style="display:flex;">
+                    <h1 id="temperature"></h1>
+                    <img id="icon">
+                </div>
+                <div id="air">
+                    <h1 id="realfeel"></h1>
+                    <h1 id="windspeed"></h1>
+                    <h1 id="humidity"></h1>
+                </div> 
+           </div>
+        </div>
+    </div>
+    <script>
+        function checkTemp(){
+        let icon = document.getElementById('icon')
+        let city = document.getElementById('inp').value
+        let cityname = document.getElementById('cityName')
+        let temp = document.getElementById('temperature')
+        let realfeel = document.getElementById('realfeel')
+        let windspeed = document.getElementById('windspeed')
+        let humidity = document.getElementById('humidity')
+
+    fetch(`http://api.weatherapi.com/v1/current.json?key=223fff3b3fe34a8685121439253001&q=${city}`)
+    .then((response)=> response.json())
+    .then((data)=>{
+        cityname.innerHTML=city;
+        cityname.style.color="orange";
+        temp.innerHTML=data.current.temp_c
+        temp.style.color="green";
+        icon.src=data.current.condition.icon
+        realfeel.innerHTML="Real Feel: "+ data.current.feelslike_c
+        windspeed.innerHTML = "Wind Speed: " + data.current.wind_kph + " km/h"
+        humidity.innerHTML="Humidity: " +data.current.humidity
+        console.log(data)
+    })
+}
+    </script>
+</body>
+</html>
